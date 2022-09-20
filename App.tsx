@@ -3,7 +3,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import {ThemeProvider} from "styled-components"
 
 import theme from './src/global/styles/theme';
-import Dashbord from './src/screens/Dashbord';
+import {Register} from './src/screens/Register';
 
 import {
   useFonts, 
@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Dashbord />
+      <Register />
     </ThemeProvider>
   );
 }
