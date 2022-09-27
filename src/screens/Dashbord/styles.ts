@@ -31,6 +31,7 @@ export const UserWrapper = styled.View`
 export const UserInfo = styled.View`
     flex-direction: row;
     align-items: center;
+    margin-top: 8px;
 `;
 export const Photo = styled.Image`
     width: ${RFValue(48)}px;
@@ -50,6 +51,10 @@ export const UserName = styled.Text`
     color: ${({ theme }) => theme.colors.shape};
     font-size: ${RFValue(18)}px;
     font-family: ${({ theme }) => theme.fonts.bold};
+`;
+
+export const ButtonPower = styled.TouchableOpacity`
+    
 `;
 
 export const Icon = styled(Feather)`

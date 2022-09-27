@@ -16,14 +16,15 @@ import {
   HighlightCards,
   Transactions,
   Title,
-  TransactionList
+  TransactionList,
+  ButtonPower
 } from "./styles"
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
 }
 
-export default function Dashbord() {
+export function Dashbord() {
   
   const data: DataListProps[] = [
     {
@@ -72,7 +73,9 @@ export default function Dashbord() {
               <UserName>Max</UserName>
             </User>
           </UserInfo>
-          <Icon name="power" />
+          <ButtonPower>
+            <Icon name="power" />
+          </ButtonPower>
         </UserWrapper>
       </Header>
       <HighlightCards >
