@@ -1,4 +1,6 @@
 import React from 'react';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import {ThemeProvider} from "styled-components";
