@@ -10,6 +10,7 @@ import theme from './src/global/styles/theme';
 import { LoadingIndicator } from "./src/components/LoadingIndicator";
 
 import { AppRoutes } from "./src/routes/app.routes";
+import { SignIn } from "./src/screens/SignIn";
 
 
 import {
@@ -36,7 +37,7 @@ export default function App() {
           <StatusBar 
             barStyle="light-content"
           />
-          <AppRoutes />
+          <SignIn />
       </NavigationContainer>
     </ThemeProvider>
   );
