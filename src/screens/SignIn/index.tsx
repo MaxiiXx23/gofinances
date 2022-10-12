@@ -1,4 +1,7 @@
 import React from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from 'react-native';
+
 
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -18,8 +21,36 @@ import {
     Footer,
     FooterWrapper
 } from './styles';
+import { useAuth } from '../../hooks/auth';
 
 export function SignIn() {
+    const { signInWhithGoogle, singInWhithApple } = useAuth();
+
+    async function handleSignInWithGoogle (){
+        try{
+
+            await signInWhithGoogle();
+
+        }catch(error){
+            const { message } = error as Error;
+            console.log(message)
+            Alert.alert("Não foi possível solicitar a conta do Google.");
+        }
+    }
+
+    async function handleSignInWithApple (){
+        try{
+
+            await singInWhithApple();
+
+        }catch(error){
+            const { message } = error as Error;
+            console.log(message)
+            Alert.alert("Não foi possível solicitar a conta da Apple.");
+        }
+    }
+    
+
     return (
         <Container>
             <Header>
@@ -45,10 +76,12 @@ export function SignIn() {
                     <SignInSocialButton 
                         title='Entrar com Google'
                         svg={GoogleIcon}
+                        onPress={handleSignInWithGoogle}
                     />
                     <SignInSocialButton 
                         title='Entrar com Apple'
                         svg={AppIcon}
+                        onPress={handleSignInWithApple}
                     />
                 </FooterWrapper>
             </Footer>
