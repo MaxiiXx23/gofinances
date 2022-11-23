@@ -12,8 +12,6 @@ import uuid from "react-native-uuid";
 import * as AuthSession from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
-import { LoadingIndicator } from "../components/LoadingIndicator";
-
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
 
@@ -55,6 +53,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const [userStorageLoading, setUserStorageLoading] = useState(true);
 
     async function signInWhithGoogle() {
+
         try {
             const RESPONSE_TYPE = 'token';
             const SCOPE = encodeURI('profile email');
@@ -147,11 +146,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             signOut,
             userStorageLoading
         }}>
-            {
-                userStorageLoading 
-                ? <LoadingIndicator />
-                : children
-            }
+            {children}
         </AuthContext.Provider>
     )
 }
