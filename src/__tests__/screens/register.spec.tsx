@@ -27,8 +27,6 @@ describe('Register Screen', () => {
         
         fireEvent.press(buttonCategory);
 
-        console.log(modalCategory.props)
-
         await waitFor(() => {
             expect(modalCategory.props.visible).toBeTruthy();
         })
