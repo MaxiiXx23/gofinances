@@ -52,7 +52,7 @@ const schema = yup.object().shape({
 })
 
 export function Register() {
-    const navigation = useNavigation<NavigationProps>();
+    // const navigation = useNavigation<NavigationProps>();
 
     const [transactionType, setTransactionType] = useState('');
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -102,7 +102,7 @@ export function Register() {
                 key: 'category',
                 name: 'Categoria',
             })
-            navigation.navigate("Listagem");
+            // navigation.navigate("Listagem");
         } catch (error) {
             Alert.alert("Não foi possível salvar")
         }
@@ -160,6 +160,7 @@ export function Register() {
                             />
                         </TransactionTypes>
                         <CategorySelectButton
+                            testID='button-category'
                             title={category.name}
                             onPress={handleOpenSelectCategoryModal}
                         />
@@ -169,7 +170,10 @@ export function Register() {
                         onPress={handleSubmit(handleRegister)}
                     />
                 </Form>
-                <Modal visible={categoryModalOpen}>
+                <Modal
+                    testID='modal-category' 
+                    visible={categoryModalOpen}
+                >
                     <CategorySelect
                         category={category}
                         setCategory={setCategory}
