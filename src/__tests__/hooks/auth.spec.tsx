@@ -13,11 +13,12 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 
 
 describe('Auth Hook', () => {
+
     it('Should be able to sign in with Google Account existed', async () => {
 
         const googleMocked = jest.mocked(startAsync as any);
 
-        googleMocked.mockReturnValue({
+        googleMocked.mockReturnValueOnce({
             type: 'success',
             params: {
                 access_token: 'google_token'
@@ -53,7 +54,7 @@ describe('Auth Hook', () => {
         // de forma individual para cada test(it)
         const googleMocked = jest.mocked(startAsync as any);
 
-        googleMocked.mockReturnValue({
+        googleMocked.mockReturnValueOnce({
             type: 'cancel',
             params: {
                 access_token: 'google_token'
@@ -67,6 +68,21 @@ describe('Auth Hook', () => {
         await act(() => result.current.signInWhithGoogle());
 
         expect(result.current.user).not.toHaveProperty('id');
+    })
+
+    it('Should be able get error if there is incorrectly Google parameters', async () => {
+
+
+        const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider })
+
+        // aqui forço o Error no authenticate Google, não informando os parametros no mock
+        try {
+            await act(() => result.current.signInWhithGoogle());
+        } catch {
+            expect(result.current.user).toEqual({});
+        }
+
+
     })
 
 })
