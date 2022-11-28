@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import uuid from "react-native-uuid"; 
+import uuid from "react-native-uuid";
 
 import * as AuthSession from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -34,11 +34,12 @@ interface IAuthContextData {
     signInWhithGoogle(): Promise<void>;
     singInWhithApple(): Promise<void>;
     signOut(): Promise<void>;
+    loadStorageDate(): Promise<void>;
     userStorageLoading: boolean;
 }
 
-interface AuthorizationResponse{
-    params:{
+interface AuthorizationResponse {
+    params: {
         access_token: string;
 
     };
@@ -60,11 +61,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 
-            const { type, params} = await AuthSession.startAsync({
+            const { type, params } = await AuthSession.startAsync({
                 authUrl,
             }) as AuthorizationResponse;
 
-            if(type === 'success'){
+            if (type === 'success') {
                 const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`);
                 const userInfo = await response.json();
 
@@ -85,16 +86,16 @@ function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    async function singInWhithApple(){
-        try{
+    async function singInWhithApple() {
+        try {
             const credential = await AppleAuthentication.signInAsync({
                 requestedScopes: [
-                  AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                  AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
                 ],
-              });
+            });
 
-              if(credential){
+            if (credential) {
 
                 const name = credential.fullName!.givenName!;
                 const photo = `https://ui-avatars.com/api/?name=${name}&length=1`
@@ -106,37 +107,43 @@ function AuthProvider({ children }: AuthProviderProps) {
                 }
                 setUser(userLogged);
                 await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
-              }
-              
+            }
 
-        }catch(error){
+
+        } catch (error) {
             const { message } = error as Error;
             console.log(error);
             throw new Error(message);
         }
     }
 
-    async function loadStorageDate(): Promise<void>{
-        const userStorage = await AsyncStorage.getItem(userStorageKey);
+    async function loadStorageDate(): Promise<void> {
 
-        if(userStorage){
-            const userLogged = JSON.parse(userStorage) as User;
-            setUser(userLogged);
+        try {
+            const userStorage = await AsyncStorage.getItem(userStorageKey);
+
+            if (userStorage) {
+                const userLogged = JSON.parse(userStorage) as User;
+                setUser(userLogged);
+                setUserStorageLoading(false);
+            }
+        } catch (error) {
+            console.log(error)
+            setUserStorageLoading(false);
+            throw new Error('Error on loadStorageDate');
         }
-
-        setUserStorageLoading(false);
 
     }
 
-    async function signOut(){
+    async function signOut() {
         setUser({} as User);
         await AsyncStorage.removeItem(userStorageKey);
 
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         loadStorageDate();
-    },[])
+    }, [])
 
     return (
         <AuthContext.Provider value={{
@@ -144,6 +151,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             signInWhithGoogle,
             singInWhithApple,
             signOut,
+            loadStorageDate,
             userStorageLoading
         }}>
             {children}

@@ -1,15 +1,25 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook, WaitFor } from '@testing-library/react-hooks';
+
 import { startAsync } from 'expo-auth-session';
+import AsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
+
 import { AuthProvider, useAuth } from "../../hooks/auth";
 
 // mock são usados para simular o comportamento de determinada biblioteca ou função
+const userLogged = {
+    id: '1',
+    name: 'TestName',
+    email: 'TestEmail',
+    photo: 'TestPhoto',
+}
+
 
 jest.mock('expo-auth-session');
+jest.mock('@react-native-async-storage/async-storage/jest/async-storage-mock');
 
-jest.mock('@react-native-async-storage/async-storage', () => ({
-    setItem: async () => { }
-}));
-
+beforeEach(() => {
+    AsyncStorage.clear();
+});
 
 
 describe('Auth Hook', () => {
@@ -68,7 +78,7 @@ describe('Auth Hook', () => {
         await act(() => result.current.signInWhithGoogle());
 
         expect(result.current.user).not.toHaveProperty('id');
-    })
+    });
 
     it('Should be able get error if there is incorrectly Google parameters', async () => {
 
@@ -83,6 +93,46 @@ describe('Auth Hook', () => {
         }
 
 
-    })
+    });
 
+    it('Should be able get user on AsynctStorage', async () => {
+
+        const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider })
+
+        await AsyncStorage.setItem(
+            '@gofinances:user',
+            JSON.stringify(userLogged)
+        );
+
+        await act(() => result.current.loadStorageDate());
+
+        expect(result.current.user).toHaveProperty('id');
+
+    });
+
+    // ainda não consigo capturar o error/ forçar o error
+    it("Should be don't able get user on AsynctStorage if getItem fail.", async () => {
+
+        const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider })
+
+        await act(() => result.current.loadStorageDate());
+        expect(result.current.user).toEqual({});
+
+    });
+
+    it("Should be able sign out user", async () => {
+        const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
+
+        await AsyncStorage.setItem(
+            '@gofinances:user',
+            JSON.stringify(userLogged)
+        );
+
+        await act(() => result.current.loadStorageDate());
+
+        await act(() => result.current.signOut());
+        
+        expect(result.current.user).toEqual({});
+
+    })
 })
