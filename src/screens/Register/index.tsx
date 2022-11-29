@@ -40,6 +40,8 @@ interface NavigationProps {
     navigate: (screen: string) => void;
 }
 
+
+
 const schema = yup.object().shape({
     name: yup.
         string()
@@ -49,7 +51,7 @@ const schema = yup.object().shape({
         .typeError("Informe um valor númerico.")
         .positive("O valor não pode ser negativo.")
         .required("O valor é obrigatório")
-})
+});
 
 export function Register() {
     // const navigation = useNavigation<NavigationProps>();
@@ -131,6 +133,7 @@ export function Register() {
                 <Form>
                     <Fields>
                         <InputForm
+                            testID='input-name'
                             name="name"
                             control={control}
                             placeholder='nome'
@@ -139,6 +142,7 @@ export function Register() {
                             error={errors.name && errors.name.message}
                         />
                         <InputForm
+                            testID='input-amount'
                             name="amount"
                             control={control}
                             placeholder='Preço'
@@ -147,12 +151,14 @@ export function Register() {
                         />
                         <TransactionTypes>
                             <TransactionTypeButton
+                                testID='transactionTypeButton-up'
                                 type='up'
                                 title='Income'
                                 onPress={() => handleTransactionTypeSelect('positive')}
                                 isActive={transactionType === 'positive'}
                             />
                             <TransactionTypeButton
+                                testID='transactionTypeButton-down'
                                 type='down'
                                 title='Outcome'
                                 onPress={() => handleTransactionTypeSelect('negative')}
@@ -166,6 +172,7 @@ export function Register() {
                         />
                     </Fields>
                     <Button
+                        testID='button-submit'
                         title='Enviar'
                         onPress={handleSubmit(handleRegister)}
                     />

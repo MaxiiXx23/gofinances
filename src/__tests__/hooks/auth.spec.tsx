@@ -1,4 +1,4 @@
-import { act, renderHook, WaitFor } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { startAsync } from 'expo-auth-session';
 import AsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";

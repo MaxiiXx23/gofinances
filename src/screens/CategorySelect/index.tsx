@@ -36,7 +36,7 @@ export function CategorySelect({
     }
 
     return (
-        <Container >
+        <Container>
             <Header>
                 <Title>
                     Category
@@ -59,6 +59,7 @@ export function CategorySelect({
             />
             <Footer>
                 <Button title='Selecionar'
+                    testID='button-closeSelectCategory'
                     onPress={closeSelectCategory}
                 />
             </Footer>
