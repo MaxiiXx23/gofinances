@@ -54,7 +54,7 @@ const schema = yup.object().shape({
 });
 
 export function Register() {
-    // const navigation = useNavigation<NavigationProps>();
+    const navigation = useNavigation<NavigationProps>();
 
     const [transactionType, setTransactionType] = useState('');
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -104,7 +104,7 @@ export function Register() {
                 key: 'category',
                 name: 'Categoria',
             })
-            // navigation.navigate("Listagem");
+            navigation.navigate("Listagem");
         } catch (error) {
             Alert.alert("Não foi possível salvar")
         }
@@ -126,7 +126,7 @@ export function Register() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <Container >
+            <Container testID='Register'>
                 <Header>
                     <Title>Cadastro</Title>
                 </Header>

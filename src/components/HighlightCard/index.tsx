@@ -27,7 +27,10 @@ const icon = {
 
 export default function HighlightCard({ type, title, amount, lastTransaction }: IProps) {
     return (
-        <Container type={type}>
+        <Container 
+            testID='highlightCard-component'
+            type={type} 
+        >
             <Header>
                 <Title type={type}>{title}</Title>
                 <Icon name={icon[type]} type={type} />

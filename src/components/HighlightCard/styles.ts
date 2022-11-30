@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components/native"
+import { View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize"
 import { Feather } from "@expo/vector-icons"
 
@@ -7,7 +8,7 @@ interface ITypeProps {
     type: 'up' | 'down' | 'total';
 }
 
-export const Container = styled.View<ITypeProps>`
+export const Container = styled(View)<ITypeProps>`
     background-color: ${({ theme, type }) =>
         type === "total" ? theme.colors.secondary : theme.colors.shape
     };

@@ -59,7 +59,7 @@ export function CategorySelect({
             />
             <Footer>
                 <Button title='Selecionar'
-                    testID='button-closeSelectCategory'
+                    testID='button-selectCategory'
                     onPress={closeSelectCategory}
                 />
             </Footer>
