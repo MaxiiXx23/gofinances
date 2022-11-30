@@ -4,7 +4,7 @@ import { Container, Loading } from './styles';
 export function LoadingIndicator() {
 
   return (
-    <Container>
+    <Container testID='container-loading' >
         <Loading />
     </Container>
   );
