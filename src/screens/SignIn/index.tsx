@@ -56,7 +56,7 @@ export function SignIn() {
 
 
     return (
-        <Container>
+        <Container testID='signIn-screen' >
             <Header>
                 <TitleWrapper>
                     <Logo
@@ -78,6 +78,7 @@ export function SignIn() {
             <Footer>
                 <FooterWrapper>
                     <SignInSocialButton
+                        testID='signInSocialButton-Google'
                         title='Entrar com Google'
                         svg={GoogleIcon}
                         onPress={handleSignInWithGoogle}
@@ -85,6 +86,7 @@ export function SignIn() {
                     {
                         Platform.OS === 'ios' &&
                         <SignInSocialButton
+                            testID='signInSocialButton-Apple'
                             title='Entrar com Apple'
                             svg={AppIcon}
                             onPress={handleSignInWithApple}
@@ -94,6 +96,7 @@ export function SignIn() {
                 {
                     isLoading &&
                     <ActivityIndicator
+                        testID='activityIndicator'
                         color={theme.colors.shape}
                         style={{
                             marginTop: 18
